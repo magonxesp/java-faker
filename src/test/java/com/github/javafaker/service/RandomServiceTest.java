@@ -72,4 +72,37 @@ public class RandomServiceTest extends AbstractFakerTest {
     public void testDefaultHex() {
         assertThat(randomService.hex(), matchesRegularExpression("^[0-9A-F]{8}$"));
     }
+
+    @Test
+    public void testRandomString() {
+        assertThat(randomService.randomString(8), matchesRegularExpression("^[a-zA-Z0-9]{8}$"));
+    }
+
+    @Test
+    public void testRandomStringRandomLength() {
+        String randomString = randomService.randomString();
+
+        assertThat(randomString, matchesRegularExpression("^[a-zA-Z0-9]{1,255}$"));
+    }
+
+    @Test
+    public void testRandomStringWithMinMaxLength() {
+        String randomString = randomService.randomString(10, 30);
+
+        assertThat(randomString, matchesRegularExpression("^[a-zA-Z0-9]{10,30}$"));
+    }
+
+    @Test
+    public void testRandomStringWithMinMaxLengthAndSpecificCharacters() {
+        String randomString = randomService.randomString(10, 30, "abc123".toCharArray());
+
+        assertThat(randomString, matchesRegularExpression("^[abc123]{10,30}$"));
+    }
+
+    @Test
+    public void testRandomStringWithLengthAndSpecificCharacters() {
+        String randomString = randomService.randomString(35, "abc123".toCharArray());
+
+        assertThat(randomString, matchesRegularExpression("^[abc123]{35}$"));
+    }
 }

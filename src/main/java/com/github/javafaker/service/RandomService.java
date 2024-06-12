@@ -1,5 +1,6 @@
 package com.github.javafaker.service;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomService {
@@ -73,5 +74,41 @@ public class RandomService {
             }
         }
         return new String(hexChars);
+    }
+
+    public String randomString(int length, char[] characters) {
+        if (length <= 0) {
+            return ""; // Keep the existing behavior instead of throwing an error.
+        }
+
+        StringBuilder randomString = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            char nextChar = characters[nextInt(characters.length)];
+            randomString.append(nextChar);
+        }
+
+        return randomString.toString();
+    }
+
+    public String randomString(int length) {
+        String digits = "0123456789";
+        String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lower = upper.toLowerCase();
+        String alphanumeric = upper + lower + digits;
+
+        return randomString(length, alphanumeric.toCharArray());
+    }
+
+    public String randomString(int minLength, int maxLength) {
+        return randomString(nextInt(minLength, maxLength));
+    }
+
+    public String randomString(int minLength, int maxLength, char[] characters) {
+        return randomString(nextInt(minLength, maxLength), characters);
+    }
+
+    public String randomString() {
+        return randomString(nextInt(1, 255));
     }
 }
